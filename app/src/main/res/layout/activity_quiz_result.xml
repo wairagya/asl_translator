@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="50dp"
+    android:background="@drawable/quiz_bg"
+    tools:context=".QuizResultActivity">
+    <LinearLayout
+        android:id="@+id/correct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:textSize="30sp"
+            android:fontFamily="@font/zorque"
+            android:text="You're Correct !!!"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:foreground="@drawable/correct" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/wrong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:textSize="30sp"
+            android:fontFamily="@font/zorque"
+            android:text="You're Wrong !"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:foreground="@drawable/wrong" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timeup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:fontFamily="@font/zorque"
+            android:textSize="30sp"
+            android:text="Upps ! Time's Up !"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:foreground="@drawable/timeup" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/score"
+        android:text="Correct"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textStyle="bold|italic"
+        android:textColor="#000"/>
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="70dp"
+        android:id="@+id/playButton"
+        style="@style/quiz_btn1"
+        android:layout_height="50dp"
+        android:text="Repeat Video"
+        android:textSize="15dp"
+        android:textColor="#000"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/quiz_header"
+        android:paddingHorizontal="15dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textView_style"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:text="Correct Answer :"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/word"
+            android:gravity="center"
+            style="@style/textView_style"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold|italic"
+            android:textAllCaps="true"
+            android:text="Word"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/menus"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/menu"/>
+        <Button
+            android:id="@+id/replay"
+            android:layout_marginLeft="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/next"/>
+    </LinearLayout>
+
+</LinearLayout>

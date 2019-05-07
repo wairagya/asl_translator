@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">ASL-Translator</string>
+
+    <string name="judul1">English to ASL Sentence</string>
+    <string name="isi1">Rearrange English Sentence for each type to Noun-Verb-Adjective-Adverb</string>
+
+    <string name="english1a">Driving car to the city</string>
+    <string name="asl1a">Car city drive</string>
+
+    <string name="english1b">Driving Truck</string>
+    <string name="asl1b">Truck drive</string>
+
+    <string name="english1c">Studying hard</string>
+    <string name="asl1c">Study hard</string>
+
+    <string name="english1d">The brown car is fast</string>
+    <string name="asl1d">Car brown fast</string>
+
+    <string name="english1e">The book that borrowed from school was good</string>
+    <string name="asl1e">Book school borrow good</string>
+
+    <string name="english1f">The bag was burned</string>
+    <string name="asl1f">Bag burn</string>
+
+    <string name="english1g">Vegetarians eats salad</string>
+    <string name="asl1g">Vegetarian salad eat</string>
+
+
+    <string name="judul2">Question</string>
+    <string name="isi2">Rearrange English Sentence for each type to Noun-Verb-Adjective-Adverb, adding the question word to the end of sentence</string>
+
+    <string name="english2a">Why drive car to the city?</string>
+    <string name="asl2a">Car city drive why</string>
+
+    <string name="english2b">What is your name?</string>
+    <string name="asl2b">Name what</string>
+
+    <string name="english2c">How to learn english?</string>
+    <string name="asl2c">English learn how</string>
+
+    <string name="english2d">Who drive the car?</string>
+    <string name="asl2d">Car drive who</string>
+
+    <string name="english2e">Where are the animals?</string>
+    <string name="asl2e">Animal where</string>
+
+    <string name="english2f">When the restaurant open again?</string>
+    <string name="asl2f">Restaurant open again when</string>
+
+    <string name="english2g">Which car is broken?</string>
+    <string name="asl2g">Car broke which</string>
+
+    <string name="judul3">Sentence with Negation</string>
+    <string name="isi3">Rearrange English Sentence for each type to Noun-Verb-Adjective-Adverb, adding the negation word to the end of sentence</string>
+
+    <string name="english3a">The car looks not good</string>
+    <string name="asl3a">Car look good not</string>
+
+    <string name="english3b">The student didnt finish the project</string>
+    <string name="asl3b">Student finish project not</string>
+
+    <string name="english3c">The phone never turned off</string>
+    <string name="asl3c">Phone turn off not</string>
+
+    <string name="english3d">Dont follow the truck</string>
+    <string name="asl3d">Truck follow not</string>
+
+    <string name="english3e">There are nothing left</string>
+    <string name="asl3e">Left there not</string>
+
+    <string name="judul4">Sentence with [because] and [and]</string>
+    <string name="isi4">Split the sentence into 2 new sentence, rearrange each sentence for each type to Noun-Verb-Adjective-Adverb, then rejoin both sentence into new sentence with word [why] or stop-mark (.) (for -and-) as separator</string>
+    <string name="english4a">She driving car because she love it</string>
+    <string name="asl4a">Car drive she why it love she</string>
+    <string name="english4b">She like the car and the truck</string>
+    <string name="asl4b">Car like she. truck.</string>
+
+    <string name="judul5">Continuous Tense</string>
+    <string name="isi5">Every sentence that have specified word (when, while, on the, in the, at, as, of) split into 2 new sentence, rearrange each sentence for each type to Noun-Verb-Adjective-Adverb, rejoin both sentence swapped (2nd sentence + 1st sentence)</string>
+    <string name="english5a">She drive the car while i sleeping</string>
+    <string name="asl5a">Sleep i. Car drive she.</string>
+    <string name="english5b">She is eating in the car</string>
+    <string name="asl5b">Car. Eat she.</string>
+    <string name="english5c">The car parked in the garage</string>
+    <string name="asl5c">Garage. Car park.</string>
+
+</resources>
