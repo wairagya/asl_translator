@@ -1,15 +1,13 @@
 package com.example.ou.asl_translator;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SplashActivity extends AppCompatActivity {
+public class MenuIndoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(SplashActivity.this, MainMenuActivity.class));
-        finish();
+        setContentView(R.layout.activity_menu_indo);
     }
 }
