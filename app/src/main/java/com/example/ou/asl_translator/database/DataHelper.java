@@ -16,29 +16,38 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "data.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME="KUIS_KATA";
+    private static final String TABLE_KUIS_KATA="KUIS_KATA";
     private static final String UID="UID";
     private static final String QUESTION="QUESTION";
     private static final String FALSE1="FALSE1";
     private static final String FALSE2="FALSE2";
     private static final String FALSE3="FALSE3";
     private static final String CORRECT="CORRECT";
-    private static final String CREATE_TABLE_KUIS_KATA="CREATE TABLE " + TABLE_NAME + " ( " + UID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + QUESTION + " VARCHAR(255), " + FALSE1 + " VARCHAR(255), " + FALSE2 + " VARCHAR(255), " + FALSE3 + " VARCHAR(255), " + CORRECT + " VARCHAR(255));";
-    private static final String DROP_TABLE_KUIS_KATA="DROP TABLE IF EXISTS " + TABLE_NAME;
+    private static final String CREATE_TABLE_KUIS_KATA="CREATE TABLE " + TABLE_KUIS_KATA + " ( " + UID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + QUESTION + " VARCHAR(255), " + FALSE1 + " VARCHAR(255), " + FALSE2 + " VARCHAR(255), " + FALSE3 + " VARCHAR(255), " + CORRECT + " VARCHAR(255));";
+    private static final String DROP_TABLE_KUIS_KATA="DROP TABLE IF EXISTS " + TABLE_KUIS_KATA;
 
-    private static final String TABLE_NAME2="KUIS_KALIMAT";
+    private static final String TABLE_KUIS_KALIMAT="KUIS_KALIMAT";
     private static final String UID2="UID";
     private static final String ENG_STC="ENG_STC";
     private static final String ASL_STC="ASL_STC";
-    private static final String CREATE_TABLE_KUIS_KALIMAT="CREATE TABLE " + TABLE_NAME2 + " ( " + UID2 + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ENG_STC + " VARCHAR(255), " + ASL_STC + " VARCHAR(255));";
-    private static final String DROP_TABLE_KUIS_KALIMAT="DROP TABLE IF EXISTS " + TABLE_NAME2;
+    private static final String CREATE_TABLE_KUIS_KALIMAT="CREATE TABLE " + TABLE_KUIS_KALIMAT + " ( " + UID2 + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ENG_STC + " VARCHAR(255), " + ASL_STC + " VARCHAR(255));";
+    private static final String DROP_TABLE_KUIS_KALIMAT="DROP TABLE IF EXISTS " + TABLE_KUIS_KALIMAT;
 
-    private static final String TABLE_NAME3="DELAY";
+    private static final String TABLE_DELAY ="DELAY";
     private static final String UID3="UID";
     private static final String WORD_DELAY="WORD_DELAY";
     private static final String STC_DELAY="STC_DELAY";
-    private static final String CREATE_TABLE_DELAY="CREATE TABLE "+TABLE_NAME3+" ( "+UID3+" INTEGER PRIMARY KEY AUTOINCREMENT , "+WORD_DELAY+" INTEGER, "+STC_DELAY+" INTEGER);";
-    private static final String DROP_TABLE_DELAY="DROP TABLE IF EXISTS "+TABLE_NAME3;
+    private static final String CREATE_TABLE_DELAY="CREATE TABLE "+ TABLE_DELAY +" ( "+UID3+" INTEGER PRIMARY KEY AUTOINCREMENT , "+WORD_DELAY+" INTEGER, "+STC_DELAY+" INTEGER);";
+    private static final String DROP_TABLE_DELAY="DROP TABLE IF EXISTS "+ TABLE_DELAY;
+
+    private static final String TABLE_HISTORY ="HISTORY";
+    private static final String UID4="UID";
+    private static final String FILENAME="FILENAME";
+    private static final String LAST_MODIFIED="LAST_MODIFIED";
+    private static final String FIRST="FIRST";
+    private static final String SECOND="SECOND";
+    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" VARCHAR(255), "+LAST_MODIFIED+" VARCHAR(255) , "+FIRST+" TEXT, "+SECOND+" TEXT);";
+    private static final String DROP_TABLE_HISTORY="DROP TABLE IF EXISTS "+ TABLE_HISTORY;
 
     public DataHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,6 +58,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_KUIS_KATA);
         db.execSQL(CREATE_TABLE_KUIS_KALIMAT);
         db.execSQL(CREATE_TABLE_DELAY);
+        db.execSQL(CREATE_TABLE_HISTORY);
     }
 
     @Override
@@ -56,7 +66,45 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE_KUIS_KATA);
         db.execSQL(DROP_TABLE_KUIS_KALIMAT);
         db.execSQL(DROP_TABLE_DELAY);
+        db.execSQL(DROP_TABLE_HISTORY);
         onCreate(db);
+    }
+
+    public void insertHistory(String filename,String last_modified,String first,String second){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FILENAME, filename);
+            values.put(LAST_MODIFIED, last_modified);
+            values.put(FIRST, first);
+            values.put(SECOND, second);
+            db.insert(TABLE_HISTORY, null, values);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    public void updateHistory(int id,String first,String second){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FIRST, first);
+            values.put(SECOND, second);
+            db.update(TABLE_HISTORY, values, "UID="+id,null);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    public void clearHistory(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_HISTORY);
     }
 
     public void initDelay(){
@@ -66,7 +114,7 @@ public class DataHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(WORD_DELAY, 0);
             values.put(STC_DELAY, 0);
-            db.insert(TABLE_NAME3, null, values);
+            db.insert(TABLE_DELAY, null, values);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -81,7 +129,7 @@ public class DataHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(WORD_DELAY, wordDelay);
             values.put(STC_DELAY, stcDelay);
-            db.update(TABLE_NAME3, values, "UID=1",null);
+            db.update(TABLE_DELAY, values, "UID=1",null);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -94,7 +142,7 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         String coloumn[]={UID3,WORD_DELAY,STC_DELAY};
-        Cursor cursor = db.query(TABLE_NAME3,coloumn,null,null,null,null,null);
+        Cursor cursor = db.query(TABLE_DELAY,coloumn,null,null,null,null,null);
         while (cursor.moveToNext()){
             temp=cursor.getInt(1);
         }
@@ -109,7 +157,7 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         String coloumn[]={UID3,WORD_DELAY,STC_DELAY};
-        Cursor cursor = db.query(TABLE_NAME3,coloumn,null,null,null,null,null);
+        Cursor cursor = db.query(TABLE_DELAY,coloumn,null,null,null,null,null);
         while (cursor.moveToNext()){
             temp=cursor.getInt(2);
         }
@@ -145,7 +193,7 @@ public class DataHelper extends SQLiteOpenHelper {
                 values.put(FALSE2, data.getFalse2());
                 values.put(FALSE3, data.getFalse3());
                 values.put(CORRECT, data.getCorrect());
-                db.insert(TABLE_NAME, null, values);
+                db.insert(TABLE_KUIS_KATA, null, values);
             }
             db.setTransactionSuccessful();
         } finally {
@@ -159,7 +207,7 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         String coloumn[]={UID,QUESTION,FALSE1,FALSE2,FALSE3,CORRECT};
-        Cursor cursor = db.query(TABLE_NAME,coloumn,null,null,null,null,null);
+        Cursor cursor = db.query(TABLE_KUIS_KATA,coloumn,null,null,null,null,null);
         while (cursor.moveToNext()){
             WordModel wordModel = new WordModel();
             wordModel.setKode(cursor.getInt(0));
@@ -199,7 +247,7 @@ public class DataHelper extends SQLiteOpenHelper {
             for (StcModel data : stcModels) {
                 values.put(ENG_STC, data.getEngStc());
                 values.put(ASL_STC, data.getAslStc());
-                db.insert(TABLE_NAME2, null, values);
+                db.insert(TABLE_KUIS_KALIMAT, null, values);
             }
             db.setTransactionSuccessful();
         } finally {
@@ -213,7 +261,7 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         String coloumn[]={UID,ENG_STC,ASL_STC};
-        Cursor cursor = db.query(TABLE_NAME2,coloumn,null,null,null,null,null);
+        Cursor cursor = db.query(TABLE_KUIS_KALIMAT,coloumn,null,null,null,null,null);
         while (cursor.moveToNext()){
             StcModel stcModel = new StcModel();
             stcModel.setKode(cursor.getInt(0));

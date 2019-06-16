@@ -167,12 +167,18 @@ public class TransActivity extends AppCompatActivity {
         });
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/.pdf*");
-                startActivityForResult(intent, 7);
+            public void onClick(View v) {
+                showHistory();
             }
         });
+//        importButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("*/.pdf*");
+//                startActivityForResult(intent, 7);
+//            }
+//        });
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,6 +192,10 @@ public class TransActivity extends AppCompatActivity {
             }
         });
     }
+    public void showHistory(){
+
+    }
+
     private Uri getMedia(String mediaName) {
         if(checkForb(mediaName)){
             mediaName="_"+mediaName;
