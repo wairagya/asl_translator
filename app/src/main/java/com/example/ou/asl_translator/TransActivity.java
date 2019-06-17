@@ -32,6 +32,7 @@ import com.tom_roush.pdfbox.text.PDFTextStripper;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -165,20 +166,20 @@ public class TransActivity extends AppCompatActivity {
                 });
             }
         });
-        importButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showHistory();
-            }
-        });
 //        importButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("*/.pdf*");
-//                startActivityForResult(intent, 7);
+//            public void onClick(View v) {
+//                showHistory();
 //            }
 //        });
+        importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/.pdf*");
+                startActivityForResult(intent, 7);
+            }
+        });
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -376,6 +377,14 @@ public class TransActivity extends AppCompatActivity {
                     if (resultCode == RESULT_OK) {
                         dialog.show();
                         new setText(this).execute(data.getData());
+                        //                        String intentDescription = data.toUri(0);
+//                        Intent intent = null;
+//                        try {
+//                            intent = Intent.parseUri(intentDescription, 0);
+//                        } catch (URISyntaxException e) {
+//                            e.printStackTrace();
+//                        }
+//                        new setText(this).execute(intent.getData());
                     }
                     break;
             }
