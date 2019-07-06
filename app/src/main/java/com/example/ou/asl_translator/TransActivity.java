@@ -1,5 +1,7 @@
 package com.example.ou.asl_translator;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -17,14 +19,19 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.ou.asl_translator.api.ApiRequest;
 import com.example.ou.asl_translator.api.RetroClient;
+import com.example.ou.asl_translator.database.DataHelper;
+import com.example.ou.asl_translator.model.HistoryModel;
 import com.example.ou.asl_translator.model.QuizScore;
 import com.example.ou.asl_translator.model.ResponseApiModel;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -63,6 +70,7 @@ public class TransActivity extends AppCompatActivity {
     private StringBuilder tempStc = new StringBuilder();
     private String inputStc,inputStc2;
     private int tempInt,wordDelay,stcDelay;
+    private String intentDescription,filename;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,9 +183,11 @@ public class TransActivity extends AppCompatActivity {
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/.pdf*");
-                startActivityForResult(intent, 7);
+                showHistory(TransActivity.this);
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                //intent.setType("*/.pdf*");
+//                intent.setType("application/pdf");
+//                startActivityForResult(intent, 7);
             }
         });
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -192,9 +202,6 @@ public class TransActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-    public void showHistory(){
-
     }
 
     private Uri getMedia(String mediaName) {
@@ -242,7 +249,6 @@ public class TransActivity extends AppCompatActivity {
                             initializePlayer(inputList,inputListStc);
                         }
 
-
                         String firstStcx,secondStcx,thirdStcx = "";
                         secondStcx=inputListStc.get(0).toString();
                         if ((inputListStc.size()>0)) {
@@ -256,7 +262,6 @@ public class TransActivity extends AppCompatActivity {
                             thirdStcx= String.valueOf(tempWordx);
                             Log.w("3rd", thirdStcx);
                         }
-
 
                         firstStcx=inputStc.replaceFirst(thirdStcx,"");
                         thirdStcx=thirdStcx.replaceFirst(inputListStc.get(0).toString(),"");
@@ -315,7 +320,6 @@ public class TransActivity extends AppCompatActivity {
                         textView.append(second);
                         textView.append(third);
 
-
                         Uri videoUri = getMedia(inputList.get(0).toString());
                         mVideoView.setVideoURI(videoUri);
                         if (mCurrentPosition > 0) {
@@ -323,7 +327,6 @@ public class TransActivity extends AppCompatActivity {
                         } else {
                             mVideoView.seekTo(1);
                         }
-
                         inputList.remove(0);
                         mVideoView.start();
                         mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -335,7 +338,6 @@ public class TransActivity extends AppCompatActivity {
                                         initializePlayer(inputList,inputListStc);
                                     }
                                 }, wordDelay);
-
                             }
                         });
                         break;
@@ -349,6 +351,65 @@ public class TransActivity extends AppCompatActivity {
         }
     }
 
+    public void showHistory(final Activity activity){
+        final Dialog dialog = new Dialog(activity);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.history_dialog);
+        Button importButton = dialog.findViewById(R.id.buttonImport);
+        Button cancelButton = dialog.findViewById(R.id.buttonCancel);
+        final DataHelper dataHelper = new DataHelper(activity.getApplicationContext());
+        dataHelper.getWritableDatabase();
+        List historyList = new ArrayList();
+        List<HistoryModel> historyModels = dataHelper.getHistory();
+        if (historyModels.size()>0){
+            for (int i=0;i<historyModels.size();i++){
+                HistoryModel historyModel = historyModels.get(i);
+                historyList.add(historyModel.getFilename());
+                Log.d("HistoryList", historyList.toString());
+            }
+        }
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                //intent.setType("*/.pdf*");
+                intent.setType("application/pdf");
+                startActivityForResult(intent, 7);
+
+//                String filename=editText.getText().toString();
+//                dataHelper.addHistory(filename);
+//                dataHelper.addHistory(intentDescription,intentDescription);
+                dialog.dismiss();
+            }
+        });
+
+        ListView listView = dialog.findViewById(R.id.listView);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.history_list, R.id.historyTV, historyList);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+            }
+        });
+        Button clearButton = dialog.findViewById(R.id.buttonClear);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataHelper.clearHistory();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     private void releasePlayer() {
         mVideoView.stopPlayback();
     }
@@ -356,14 +417,12 @@ public class TransActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         releasePlayer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             mVideoView.pause();
         }
@@ -376,15 +435,21 @@ public class TransActivity extends AppCompatActivity {
                 case 7:
                     if (resultCode == RESULT_OK) {
                         dialog.show();
-                        new setText(this).execute(data.getData());
-                        //                        String intentDescription = data.toUri(0);
-//                        Intent intent = null;
-//                        try {
-//                            intent = Intent.parseUri(intentDescription, 0);
-//                        } catch (URISyntaxException e) {
-//                            e.printStackTrace();
-//                        }
-//                        new setText(this).execute(intent.getData());
+                        intentDescription = data.toUri(0);
+                        filename=data.getData().getPath();
+
+                        DataHelper dataHelper = new DataHelper(this);
+                        dataHelper.getWritableDatabase();
+                        dataHelper.addHistory(filename,intentDescription);
+                        Log.d("filename: ", filename);
+                        Log.d("intent: ", intentDescription);
+                        Intent intent = null;
+                        try {
+                            intent = Intent.parseUri(intentDescription, 0);
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        new setText(this).execute(intent.getData());
                     }
                     break;
             }
@@ -442,5 +507,4 @@ public class TransActivity extends AppCompatActivity {
     public void dismissPg(){
         dialog.dismiss();
     }
-
 }

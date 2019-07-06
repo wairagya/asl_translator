@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.example.ou.asl_translator.model.HistoryModel;
 import com.example.ou.asl_translator.model.StcModel;
 import com.example.ou.asl_translator.model.WordModel;
 
@@ -43,10 +45,8 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String TABLE_HISTORY ="HISTORY";
     private static final String UID4="UID";
     private static final String FILENAME="FILENAME";
-    private static final String LAST_MODIFIED="LAST_MODIFIED";
-    private static final String FIRST="FIRST";
-    private static final String SECOND="SECOND";
-    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" VARCHAR(255), "+LAST_MODIFIED+" VARCHAR(255) , "+FIRST+" TEXT, "+SECOND+" TEXT);";
+    private static final String INTENT_DESC ="INTENT_DESC";
+    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" TEXT, "+ INTENT_DESC +" TEXT);";
     private static final String DROP_TABLE_HISTORY="DROP TABLE IF EXISTS "+ TABLE_HISTORY;
 
     public DataHelper(Context context) {
@@ -69,16 +69,36 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE_HISTORY);
         onCreate(db);
     }
+    public List<HistoryModel> getHistory(){
+        List<HistoryModel> historyModels = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String coloumn[]={UID,FILENAME,INTENT_DESC};
+        try {
+            Cursor cursor = db.query(TABLE_HISTORY,coloumn,null,null,null,null,null);
+            while (cursor.moveToNext()){
+                HistoryModel historyModel = new HistoryModel();
+                historyModel.setFilename(cursor.getString(1));
+                historyModel.setIntentDescription(cursor.getString(2));
+                historyModels.add(historyModel);
+            }
+            cursor.close();
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return historyModels;
+    }
 
-    public void insertHistory(String filename,String last_modified,String first,String second){
+    public void addHistory(String filename,String intent_desc){
+        Log.d("Adding History", "Filename: "+filename+", Intent Desc :"+intent_desc);
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(FILENAME, filename);
-            values.put(LAST_MODIFIED, last_modified);
-            values.put(FIRST, first);
-            values.put(SECOND, second);
+            values.put(INTENT_DESC, intent_desc);
             db.insert(TABLE_HISTORY, null, values);
             db.setTransactionSuccessful();
         } finally {
@@ -87,20 +107,6 @@ public class DataHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateHistory(int id,String first,String second){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put(FIRST, first);
-            values.put(SECOND, second);
-            db.update(TABLE_HISTORY, values, "UID="+id,null);
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
-    }
 
     public void clearHistory(){
         SQLiteDatabase db = this.getWritableDatabase();
