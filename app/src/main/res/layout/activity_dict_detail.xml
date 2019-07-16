@@ -81,8 +81,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/playButton"
-        style="@style/btn_style2"
+        style="@style/btn_style"
         android:text="Repeat Video"
-        android:textColor="#000"
+
         />
 </LinearLayout>

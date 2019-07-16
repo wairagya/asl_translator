@@ -46,7 +46,11 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String UID4="UID";
     private static final String FILENAME="FILENAME";
     private static final String INTENT_DESC ="INTENT_DESC";
-    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" TEXT, "+ INTENT_DESC +" TEXT);";
+    private static final String LIST1 ="LIST1";
+    private static final String LIST2 ="LIST2";
+    private static final String INSTC1 ="INSTC1";
+    private static final String INSTC2 ="INSTC2";
+    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" TEXT, "+ INTENT_DESC +" TEXT, "+ LIST1 +" TEXT, "+ LIST2 +" TEXT, "+ INSTC1 +" TEXT, "+ INSTC2 +" TEXT);";
     private static final String DROP_TABLE_HISTORY="DROP TABLE IF EXISTS "+ TABLE_HISTORY;
 
     public DataHelper(Context context) {
@@ -78,6 +82,7 @@ public class DataHelper extends SQLiteOpenHelper {
             Cursor cursor = db.query(TABLE_HISTORY,coloumn,null,null,null,null,null);
             while (cursor.moveToNext()){
                 HistoryModel historyModel = new HistoryModel();
+                historyModel.setUid(cursor.getInt(0));
                 historyModel.setFilename(cursor.getString(1));
                 historyModel.setIntentDescription(cursor.getString(2));
                 historyModels.add(historyModel);
@@ -94,12 +99,33 @@ public class DataHelper extends SQLiteOpenHelper {
     public void addHistory(String filename,String intent_desc){
         Log.d("Adding History", "Filename: "+filename+", Intent Desc :"+intent_desc);
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  * FROM " + TABLE_HISTORY+" WHERE INTENT_DESC='"+intent_desc+"';",null);
+        int count = cursor.getCount();
+        if (count==0){
+            db.beginTransaction();
+            try {
+                ContentValues values = new ContentValues();
+                values.put(FILENAME, filename);
+                values.put(INTENT_DESC, intent_desc);
+                db.insert(TABLE_HISTORY, null, values);
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+                db.close();
+            }
+        }
+    }
+
+    public void updateHistory(String intentDesc,String list1, String list2, String inStc1, String inStc2){
+        SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(FILENAME, filename);
-            values.put(INTENT_DESC, intent_desc);
-            db.insert(TABLE_HISTORY, null, values);
+            values.put(LIST1, list1);
+            values.put(LIST2, list2);
+            values.put(INSTC1, inStc1);
+            values.put(INSTC2, inStc2);
+            db.update(TABLE_HISTORY, values, "INTENT_DESC='"+intentDesc+"'",null);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -111,6 +137,28 @@ public class DataHelper extends SQLiteOpenHelper {
     public void clearHistory(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ TABLE_HISTORY);
+    }
+
+    public List<String> importHistoryData(int uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String coloumn[]={INTENT_DESC,LIST1,LIST2,INSTC1,INSTC2};
+        List data = new ArrayList();
+        try {
+            Cursor cursor = db.query(TABLE_HISTORY,coloumn,"UID='"+ uid +"'",null,null,null,null);
+            while (cursor.moveToNext()){
+                data.add(cursor.getString(1));
+                data.add(cursor.getString(2));
+                data.add(cursor.getString(3));
+                data.add(cursor.getString(4));
+            }
+            cursor.close();
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return data;
     }
 
     public void initDelay(){

@@ -6,24 +6,92 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="70dp"
+    android:padding="50dp"
     android:background="@drawable/quiz_bg"
     tools:context=".QuizMenuActivity">
-    <Button
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/quiz_head"/>
+    <LinearLayout
         android:id="@+id/menu1"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:text="GUESST THE WORD"
-        style="@style/quiz_btn1"/>
-
-    <Button
+        android:layout_marginBottom="25dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/quiz_button_bg"
+        >
+        <ImageView
+            android:src="@drawable/quiz1"
+            android:layout_weight="1"
+            android:layout_width="35dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guess the Word"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins"
+            />
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/quiz_button_kuning"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/menu2"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:text="ARRANGE THE WORD"
-        style="@style/quiz_btn1"/>
-    <Button
+        android:layout_height="80dp"
+        android:layout_marginBottom="25dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/quiz_button_bg"
+        android:text="ARRANGE THE WORD" >
+        <ImageView
+            android:src="@drawable/quiz2"
+            android:layout_weight="1"
+            android:layout_width="35dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:textSize="18sp"
+            android:text="Arrange the Word"/>
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/quiz_button_biru"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/menu3"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        style="@style/quiz_btn1"
-        android:text="DO THE SIGN" />
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/quiz_button_bg"
+        android:text="DO THE SIGN" >
+        <ImageView
+            android:src="@drawable/quiz3"
+            android:layout_weight="1"
+            android:layout_width="35dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:textSize="18sp"
+            android:text="Guess the Word"/>
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/quiz_button_merah"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
 
 </LinearLayout>

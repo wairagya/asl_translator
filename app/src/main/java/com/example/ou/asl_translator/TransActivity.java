@@ -23,7 +23,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -42,7 +44,9 @@ import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -54,9 +58,10 @@ public class TransActivity extends AppCompatActivity {
     private VideoView mVideoView;
     private ProgressDialog dialog;
     private int mCurrentPosition = 0;
-    private Button pauseButton,transButton,importButton;
+    private Button pauseButton,transButton,importButton,saveButton,resetButton,resumeButton;
     private CardView stcMarker;
     private TextView textView,back;
+    private LinearLayout importStatus;
     private static final String PLAYBACK_TIME = "play_time";
     private static final String[] forbidden = new String[] {
             "abstract","break","case","catch","class",
@@ -76,6 +81,10 @@ public class TransActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trans);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        importStatus=findViewById(R.id.importStatus);
+        saveButton=findViewById(R.id.saveButton);
+        resumeButton=findViewById(R.id.resumeButton);
+        resetButton=findViewById(R.id.resetButton);
         back=findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +209,36 @@ public class TransActivity extends AppCompatActivity {
                 else if (pauseButton.getHint().equals("Pause")){
                     pauseButton.setHint("Play");
                 }
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String list1=list.toString();
+                Log.d("Save: List1", list.toString());
+                String list2=listStc.toString();
+                Log.d("Save: List2", listStc.toString());
+                String inStc1=inputStc;
+                Log.d("Save: InputStc1", inputStc);
+                String inStc2=inputStc2;
+                Log.d("Save: InputStc2", inputStc2);
+                String intDesc=intentDescription;
+                DataHelper dataHelper = new DataHelper(TransActivity.this);
+                dataHelper.getWritableDatabase();
+                dataHelper.updateHistory(intDesc,list1,list2,inStc1,inStc2);
+                Toast.makeText(TransActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                transButton.setVisibility(View.VISIBLE);
+                resumeButton.setVisibility(View.GONE);
+            }
+        });
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stcMarker.setVisibility(View.VISIBLE);
+                pauseButton.setHint("Pause");
+                initializePlayer(list,listStc);
+                transButton.setVisibility(View.VISIBLE);
+                resumeButton.setVisibility(View.GONE);
             }
         });
     }
@@ -360,11 +399,13 @@ public class TransActivity extends AppCompatActivity {
         final DataHelper dataHelper = new DataHelper(activity.getApplicationContext());
         dataHelper.getWritableDatabase();
         List historyList = new ArrayList();
+        List uidList = new ArrayList();
         List<HistoryModel> historyModels = dataHelper.getHistory();
         if (historyModels.size()>0){
             for (int i=0;i<historyModels.size();i++){
                 HistoryModel historyModel = historyModels.get(i);
                 historyList.add(historyModel.getFilename());
+                uidList.add(historyModel.getUid());
                 Log.d("HistoryList", historyList.toString());
             }
         }
@@ -387,16 +428,45 @@ public class TransActivity extends AppCompatActivity {
 //                dataHelper.addHistory(filename);
 //                dataHelper.addHistory(intentDescription,intentDescription);
                 dialog.dismiss();
+                importStatus.setVisibility(View.VISIBLE);
             }
         });
-
-        ListView listView = dialog.findViewById(R.id.listView);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.history_list, R.id.historyTV, historyList);
-        listView.setAdapter(arrayAdapter);
+        final List<Map<String, String>> tempList = new ArrayList<>();
+        Map<String, String> map;
+        int count = historyList.size();
+        for(int i = 0; i < count; i++) {
+            map = new HashMap<>();
+            map.put("name", historyList.get(i).toString());
+            map.put("total","100");
+            map.put("id",uidList.get(i).toString());
+            tempList.add(map);
+        }
+        final ListView listView = dialog.findViewById(R.id.listView);
+        final SimpleAdapter adapter = new SimpleAdapter(this, tempList, R.layout.history_list, new String[] { "name", "total" }, new int[] { R.id.historyTV, R.id.intentDesc });
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String string = tempList.get(position).get("id");
+                List listData = dataHelper.importHistoryData(Integer.parseInt(string));
+                String[] items = listData.get(0).toString().replaceAll(" ","").replace("[","").replace("]","").split(",");
+                List<String> listList = new ArrayList<String>(Arrays.asList(items));
+                list=listList;
+                Log.d("LOAD: list1", list.toString());
+                items = listData.get(1).toString().replaceAll("\\s+"," ").replace("[","").replace("]","").split(",");
+                listList = new ArrayList<String>(Arrays.asList(items));
+                listStc=listList;
+                Log.d("LOAD: list2", listStc.toString());
+                inputStc=listData.get(2).toString();
+                Log.d("LOAD: InputStc1", inputStc);
+                inputStc2=listData.get(3).toString();
+                Log.d("LOAD: InputStc2", inputStc2);
+                inputText.setText(inputStc);
+                Toast.makeText(TransActivity.this, string, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
+                transButton.setVisibility(View.GONE);
+                resumeButton.setVisibility(View.VISIBLE);
+                importStatus.setVisibility(View.VISIBLE);
             }
         });
         Button clearButton = dialog.findViewById(R.id.buttonClear);

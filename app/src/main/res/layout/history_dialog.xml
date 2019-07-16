@@ -2,11 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="History"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins"
+            android:textSize="20dp"
+            android:text="History"/>
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:text="Back"
+            android:background="@drawable/wrong"
+            android:id="@+id/buttonCancel"/>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,7 +33,7 @@
             android:orientation="vertical">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:id="@+id/listView">
             </ListView>
         </LinearLayout>
@@ -26,16 +43,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Import"
+        style="@style/btn_style"
+        android:textColor="#000"
         android:id="@+id/buttonImport"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Clear"
+        style="@style/btn_style"
+        android:textColor="#000"
         android:id="@+id/buttonClear"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Clear"
-        android:id="@+id/buttonCancel"/>
+
 
 </LinearLayout>

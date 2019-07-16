@@ -4,88 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mn_bg"
     tools:context=".MenuAslActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="50dp"
             android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/mn_hd"
+                android:layout_marginBottom="40dp"
+                />
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-                android:orientation="vertical">
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:id="@+id/menu_learn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        >
+                        <ImageView
+                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginVertical="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="75dp"
+                            android:src="@drawable/logo_learn"/>
+                        <TextView
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/menu_style"
+                            android:text="Learn"/>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:id="@+id/menu_dict"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+
+                        android:background="@drawable/menu_bg">
+                        <ImageView
+                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginVertical="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="75dp"
+                            android:src="@drawable/logo_dict"/>
+                        <TextView
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/menu_style"
+                            android:text="Dictionary"/>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/menu_learn"
+                <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/menu_bg">
-                    <ImageView
-                        android:layout_marginHorizontal="35dp"
-                        android:layout_marginVertical="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="125dp"
-                        android:src="@drawable/logo_learn"/>
-                    <TextView
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/menu_style"
-                        android:text="Learn"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/menu_dict"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/menu_bg">
-                    <ImageView
-                        android:layout_marginHorizontal="35dp"
-                        android:layout_marginVertical="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="125dp"
-                        android:src="@drawable/logo_dict"/>
-                    <TextView
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/menu_style"
-                        android:text="Dictionary"/>
-                </LinearLayout>
-            </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="1">
                     <LinearLayout
                         android:id="@+id/menu_trans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
-                        android:layout_marginEnd="10dp"
                         android:background="@drawable/menu_bg">
                         <ImageView
-                            android:layout_marginHorizontal="35dp"
+                            android:layout_marginHorizontal="30dp"
                             android:layout_marginVertical="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="125dp"
+                            android:layout_height="75dp"
                             android:src="@drawable/logo_trans"/>
                         <TextView
                             android:layout_margin="5dp"
@@ -94,19 +115,26 @@
                             style="@style/menu_style"
                             android:text="Translator"/>
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
                     <LinearLayout
                         android:id="@+id/menu_quiz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
-                        android:layout_marginStart="10dp"
+
                         android:background="@drawable/menu_bg">
                         <ImageView
-                            android:layout_marginHorizontal="35dp"
+                            android:layout_marginHorizontal="30dp"
                             android:layout_marginVertical="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="125dp"
+                            android:layout_height="75dp"
                             android:src="@drawable/logo_quiz"/>
                         <TextView
                             android:layout_margin="5dp"
@@ -115,26 +143,33 @@
                             style="@style/menu_style"
                             android:text="Quiz"/>
                     </LinearLayout>
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1">
                     <LinearLayout
                         android:id="@+id/menu_setting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
-                        android:layout_marginEnd="10dp"
                         android:background="@drawable/menu_bg">
                         <ImageView
-                            android:layout_marginHorizontal="35dp"
+                            android:layout_marginHorizontal="30dp"
                             android:layout_marginVertical="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="125dp"
+                            android:layout_height="75dp"
                             android:src="@drawable/logo_setting"/>
                         <TextView
                             android:layout_margin="5dp"
@@ -143,19 +178,25 @@
                             style="@style/menu_style"
                             android:text="Setting"/>
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
                     <LinearLayout
                         android:id="@+id/menu_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
-                        android:layout_marginStart="10dp"
+
                         android:background="@drawable/menu_bg">
                         <ImageView
-                            android:layout_marginHorizontal="35dp"
+                            android:layout_marginHorizontal="30dp"
                             android:layout_marginVertical="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="125dp"
+                            android:layout_height="75dp"
                             android:src="@drawable/logo_about"/>
                         <TextView
                             android:layout_margin="5dp"
@@ -164,12 +205,12 @@
                             style="@style/menu_style"
                             android:text="About"/>
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                </LinearLayout>
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </LinearLayout>
 
     </LinearLayout>
 

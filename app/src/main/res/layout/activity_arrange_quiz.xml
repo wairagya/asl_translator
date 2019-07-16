@@ -5,7 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/quiz_bg"
     android:padding="50dp"
     tools:context=".ArrangeQuizActivity">
@@ -13,17 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
-        android:background="@drawable/quiz_header"
+        android:background="@drawable/quiz_button_bg"
         android:orientation="horizontal">
         <TextView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/textView_style"
             android:layout_marginHorizontal="15dp"
             android:textSize="22sp"
             android:gravity="center"
             android:textStyle="bold|italic"
-            android:fontFamily="@font/zorque"
+            android:fontFamily="@font/poppins"
             android:layout_weight="1"
             android:text="Arrange the Word !"/>
         <!--<TextView-->
@@ -38,7 +37,7 @@
     <TextView
         android:layout_marginTop="20dp"
         android:id="@+id/eng"
-        android:background="@drawable/quiz_header"
+        android:background="@drawable/quiz_button_bg"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:gravity="center"
@@ -52,14 +51,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_marginTop="15dp">
         <TextView
             android:id="@+id/asl"
-            android:background="@drawable/quiz_header"
+            android:background="@drawable/quiz_button_bg"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="60dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textAllCaps="true"
             android:textColor="#000"
             android:gravity="center"
@@ -67,8 +67,8 @@
             android:textStyle="italic|bold" />
         <Button
             android:id="@+id/reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/wrong"
             />
     </LinearLayout>
@@ -85,7 +85,7 @@
     <Button
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        style="@style/quiz_btn1"
+        android:background="@drawable/quiz_button_bg"
         android:id="@+id/check"
         android:textColor="#000"
         android:textSize="16dp"

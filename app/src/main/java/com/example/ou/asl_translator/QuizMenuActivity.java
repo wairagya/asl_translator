@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class QuizMenuActivity extends AppCompatActivity {
 
@@ -12,9 +13,9 @@ public class QuizMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
-        Button menu1 = findViewById(R.id.menu1);
-        Button menu2 = findViewById(R.id.menu2);
-        Button menu3 = findViewById(R.id.menu3);
+        LinearLayout menu1 = findViewById(R.id.menu1);
+        LinearLayout menu2 = findViewById(R.id.menu2);
+        LinearLayout menu3 = findViewById(R.id.menu3);
         menu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

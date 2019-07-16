@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    >
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:id="@+id/historyTV"
         android:gravity="center"
+        android:layout_weight="1"
+        android:textColor="#000"
+        android:fontFamily="@font/poppins"
+        android:text="No History"
         />
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:id="@+id/intentDesc"-->
-        <!--android:visibility="gone"-->
-        <!--/>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/intentDesc"
+        android:textColor="#000"
+        android:fontFamily="@font/poppins"
+        android:text="20%"
+        />
 </LinearLayout>

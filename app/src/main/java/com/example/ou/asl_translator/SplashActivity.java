@@ -21,14 +21,14 @@ public class SplashActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(SplashActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SplashActivity.this, MainMenuActivity.class));
+                //Toast.makeText(SplashActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SplashActivity.this, MenuAslActivity.class));
                 finish();
             }
 
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(SplashActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SplashActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
