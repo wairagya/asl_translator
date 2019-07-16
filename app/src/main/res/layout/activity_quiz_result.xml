@@ -98,26 +98,27 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="70dp"
         android:id="@+id/playButton"
-        android:background="@drawable/quiz_button_bg"
+
         android:layout_height="50dp"
         android:text="Repeat Video"
-        android:textSize="15dp"
+
+        style="@style/btn_style"
         android:layout_width="150dp"
-        android:textColor="#000"
+
         />
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:gravity="center"
         android:background="@drawable/quiz_button_bg"
         android:paddingHorizontal="15dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/textView_style"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textColor="#000"
             android:text="Correct Answer :"
             android:textStyle="bold" />
@@ -142,17 +143,49 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/menus"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/menu"/>
-        <Button
-            android:id="@+id/replay"
-            android:layout_marginLeft="100dp"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/next"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/menus"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/menu_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                style="@style/menu_style"
+                android:text="Menu"
+                android:textColor="#fff"
+                android:textSize="24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/replay"
+                android:layout_width="70dp"
+                android:layout_height="75dp"
+                android:background="@drawable/play_icon" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                style="@style/menu_style"
+                android:text="Play Again"
+                android:textColor="#fff"
+                android:textSize="24dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

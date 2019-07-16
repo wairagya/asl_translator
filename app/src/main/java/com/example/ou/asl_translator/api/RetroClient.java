@@ -8,9 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroClient {
     //public static final String base_url="http://10.0.2.2/asl/";
-    //public static final String base_url="http://asl.wahyupermadi.id/";
+    public static final String base_url="http://asl.wahyupermadi.id/";
     //public static final String base_url="http://192.168.0.183/asl/";
-    public static final String base_url="http://172.17.100.2/asl/";
+    //public static final String base_url="http://172.17.100.2/asl/";
     private static Retrofit retro = null;
 
     static Gson gson = new GsonBuilder()

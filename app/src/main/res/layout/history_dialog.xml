@@ -6,20 +6,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="center"
             android:layout_weight="1"
             android:textStyle="bold"
             android:fontFamily="@font/poppins"
             android:textSize="20dp"
+            android:textColor="#000"
             android:text="History"/>
         <Button
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:text="Back"
             android:background="@drawable/wrong"
             android:id="@+id/buttonCancel"/>
     </LinearLayout>
@@ -33,7 +34,7 @@
             android:orientation="vertical">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:id="@+id/listView">
             </ListView>
         </LinearLayout>
@@ -44,14 +45,14 @@
         android:layout_height="wrap_content"
         android:text="Import"
         style="@style/btn_style"
-        android:textColor="#000"
+
         android:id="@+id/buttonImport"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Clear"
         style="@style/btn_style"
-        android:textColor="#000"
+
         android:id="@+id/buttonClear"/>
 
 
