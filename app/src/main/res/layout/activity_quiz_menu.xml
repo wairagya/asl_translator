@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:textSize="18sp"
-            android:text="Guess the Word"/>
+            android:text="Do the Sign!"/>
         <ImageView
             android:layout_weight="1"
             android:src="@drawable/quiz_button_merah"

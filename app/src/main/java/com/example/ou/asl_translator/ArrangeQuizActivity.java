@@ -68,6 +68,7 @@ public class ArrangeQuizActivity extends AppCompatActivity {
                 generate(answers);
                 wordCount=0;
                 check.setVisibility(View.GONE);
+                gridview.setVisibility(View.VISIBLE);
             }
         });
         check.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +115,7 @@ public class ArrangeQuizActivity extends AppCompatActivity {
         wordCount=wordCount+1;
         if (wordCount == count){
             check.setVisibility(View.VISIBLE);
+            gridview.setVisibility(View.GONE);
         }else {
             temp=temp+" ";
             //asl.append(" ");

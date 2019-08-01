@@ -197,7 +197,6 @@ public class TransLearnActivity extends AppCompatActivity {
                         public void run() {
                             inputList.remove(0);
                             histList.remove(0);
-                            histText.setText("Process list");
                             initializePlayer(inputList,inputListStc,histList);
                         }
                     }, stcDelay);

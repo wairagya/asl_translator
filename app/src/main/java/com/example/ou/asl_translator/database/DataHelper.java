@@ -50,7 +50,8 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String LIST2 ="LIST2";
     private static final String INSTC1 ="INSTC1";
     private static final String INSTC2 ="INSTC2";
-    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" TEXT, "+ INTENT_DESC +" TEXT, "+ LIST1 +" TEXT, "+ LIST2 +" TEXT, "+ INSTC1 +" TEXT, "+ INSTC2 +" TEXT);";
+    private static final String PROGRESS ="PROGRESS";
+    private static final String CREATE_TABLE_HISTORY="CREATE TABLE "+ TABLE_HISTORY +" ( "+UID4+" INTEGER PRIMARY KEY AUTOINCREMENT , "+FILENAME+" TEXT, "+ INTENT_DESC +" TEXT, "+ LIST1 +" TEXT, "+ LIST2 +" TEXT, "+ INSTC1 +" TEXT, "+ INSTC2 +" TEXT, "+ PROGRESS +" INTEGER);";
     private static final String DROP_TABLE_HISTORY="DROP TABLE IF EXISTS "+ TABLE_HISTORY;
 
     public DataHelper(Context context) {
@@ -77,7 +78,7 @@ public class DataHelper extends SQLiteOpenHelper {
         List<HistoryModel> historyModels = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String coloumn[]={UID,FILENAME,INTENT_DESC};
+        String coloumn[]={UID,FILENAME,INTENT_DESC,PROGRESS};
         try {
             Cursor cursor = db.query(TABLE_HISTORY,coloumn,null,null,null,null,null);
             while (cursor.moveToNext()){
@@ -85,6 +86,7 @@ public class DataHelper extends SQLiteOpenHelper {
                 historyModel.setUid(cursor.getInt(0));
                 historyModel.setFilename(cursor.getString(1));
                 historyModel.setIntentDescription(cursor.getString(2));
+                historyModel.setProgress(cursor.getInt(3));
                 historyModels.add(historyModel);
             }
             cursor.close();
@@ -116,7 +118,7 @@ public class DataHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateHistory(String intentDesc,String list1, String list2, String inStc1, String inStc2){
+    public void updateHistory(String intentDesc,String list1, String list2, String inStc1, String inStc2,int progress){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -125,6 +127,7 @@ public class DataHelper extends SQLiteOpenHelper {
             values.put(LIST2, list2);
             values.put(INSTC1, inStc1);
             values.put(INSTC2, inStc2);
+            values.put(PROGRESS,progress);
             db.update(TABLE_HISTORY, values, "INTENT_DESC='"+intentDesc+"'",null);
             db.setTransactionSuccessful();
         } finally {

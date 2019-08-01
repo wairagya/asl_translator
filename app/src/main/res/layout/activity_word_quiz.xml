@@ -10,55 +10,63 @@
     tools:context=".WordQuizActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <TextView
-            android:background="@drawable/quiz_button_bg"
+        android:layout_height="300dp"
+        android:background="@drawable/quiz_q_bg"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:padding="5dp"
-            android:gravity="center"
-            style="@style/textView_style"
-            android:textSize="20sp"
-            android:textStyle="bold|italic"
-            android:fontFamily="@font/zorque"
-            android:layout_weight="1"
-            android:text="Guess the Right Word!"/>
-        <TextView
-            android:id="@+id/timer"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="10dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="40sp"
-            android:textColor="#000"
-            android:fontFamily="@font/zorque"
-            android:text="15"/>
+            android:padding="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:gravity="center"
+                style="@style/textView_style"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:fontFamily="@font/zorque"
+                android:layout_weight="1"
+                android:textColor="#fff"
+                android:text="Guess the Right Word!"/>
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="40sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/zorque"
+                android:text="15"/>
+        </LinearLayout>
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="4:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="4:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/option1"
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/quiz_button_bg"
+        android:background="@drawable/answer_bg"
         android:fontFamily="@font/sf"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"
@@ -69,9 +77,9 @@
     <Button
         android:id="@+id/option2"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/quiz_button_bg"
+        android:background="@drawable/answer_bg"
         android:fontFamily="@font/sf"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"
@@ -82,9 +90,9 @@
     <Button
         android:id="@+id/option3"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/quiz_button_bg"
+        android:background="@drawable/answer_bg"
         android:fontFamily="@font/sf"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"
@@ -95,9 +103,9 @@
     <Button
         android:id="@+id/option4"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/quiz_button_bg"
+        android:background="@drawable/answer_bg"
         android:fontFamily="@font/sf"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"

@@ -80,7 +80,7 @@ public class TransActivity extends Activity {
     private String tempList2="",tempListStc2="";
     private StringBuilder tempStc = new StringBuilder();
     private String inputStc,inputStc2;
-    private int tempInt,wordDelay,stcDelay;
+    private int tempInt,wordDelay,stcDelay,progress,progressList;
     private String intentDescription,filename;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,70 +135,74 @@ public class TransActivity extends Activity {
         transButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stcMarker.setVisibility(View.VISIBLE);
                 inputStc2=inputText.getText().toString();
                 inputStc =inputText.getText().toString();
                 inputStc=inputStc.replaceAll(",",".");
                 inputStc=inputStc.replaceFirst("\\s++$", "");
-                Log.w("inputStc", inputStc);
-                if (!inputStc.substring(inputStc.length()-1).equals(".")) {
-                    inputStc=inputStc+".";
-                    Log.w("Stts", "True .: ");
-                }
-                inputStc=inputStc.replaceAll("\n","");
-                String[] inStc=inputStc.split("\\.");
-                listStc.clear();
-                listStc.addAll(Arrays.asList(inStc));
-                tempInt=0;
-                ApiRequest Api = RetroClient.getRequestService();
-                Call<ResponseApiModel> checker = Api.checker(inputStc);
-                checker.enqueue(new Callback<ResponseApiModel>() {
-                    @Override
-                    public void onResponse(Call<ResponseApiModel> call, Response<ResponseApiModel> response) {
-                        ResponseApiModel res = response.body();
-                        assert res != null;
-                        String word=res.getPhares();
-                        word = word.substring(0, word.length() - 1);
-                        list.clear();
-                        String[] stc=word.split("\\.");
-                        for (int i = 0; i<stc.length; i++){
-                            if (stc[i].trim().length()>0){
-                                list.add("?");
-                                String sentence = stc[i];
-                                String[] tempArray = sentence.split(" ");
-                                for (int k = 0; k<tempArray.length; k++) {
-                                    String temp=tempArray[k];
-                                    if (temp.contains("-")){
-                                        String[] tempArray2 = temp.split("-");
-                                        for(int j=0;j<tempArray2.length;j++){
-                                            if (tempArray2[j].length()!=0){
-                                                list.add(tempArray2[j]);
+                if (inputStc.length()>0){
+                    Log.w("inputStc", inputStc);
+                    if (!inputStc.substring(inputStc.length()-1).equals(".")) {
+                        inputStc=inputStc+".";
+                        Log.w("Stts", "True .: ");
+                    }
+                    stcMarker.setVisibility(View.VISIBLE);
+                    inputStc=inputStc.replaceAll("\n","");
+                    String[] inStc=inputStc.split("\\.");
+                    listStc.clear();
+                    listStc.addAll(Arrays.asList(inStc));
+                    tempInt=0;
+                    ApiRequest Api = RetroClient.getRequestService();
+                    Call<ResponseApiModel> checker = Api.checker(inputStc);
+                    checker.enqueue(new Callback<ResponseApiModel>() {
+                        @Override
+                        public void onResponse(Call<ResponseApiModel> call, Response<ResponseApiModel> response) {
+                            ResponseApiModel res = response.body();
+                            assert res != null;
+                            String word=res.getPhares();
+                            word = word.substring(0, word.length() - 1);
+                            list.clear();
+                            String[] stc=word.split("\\.");
+                            for (int i = 0; i<stc.length; i++){
+                                if (stc[i].trim().length()>0){
+                                    list.add("?");
+                                    String sentence = stc[i];
+                                    String[] tempArray = sentence.split(" ");
+                                    for (int k = 0; k<tempArray.length; k++) {
+                                        String temp=tempArray[k];
+                                        if (temp.contains("-")){
+                                            String[] tempArray2 = temp.split("-");
+                                            for(int j=0;j<tempArray2.length;j++){
+                                                if (tempArray2[j].length()!=0){
+                                                    list.add(tempArray2[j]);
+                                                }
+                                            }
+                                        }else{
+                                            if (tempArray[k].length()!=0){
+                                                list.add(tempArray[k]);
                                             }
                                         }
-                                    }else{
-                                        if (tempArray[k].length()!=0){
-                                            list.add(tempArray[k]);
-                                        }
                                     }
+                                    list.add("!");
                                 }
-                                list.add("!");
+                                else {
+                                    listStc.remove(i);
+                                    tempInt=tempInt+1;
+                                }
                             }
-                            else {
-                                listStc.remove(i);
-                                tempInt=tempInt+1;
-                            }
+                            pauseButton.setHint("Pause");
+                            Log.w("Daftar Word", list.toString());
+                            Log.w("Daftar Stc", listStc.toString());
+                            progress=list.size()+1;
+                            initializePlayer(list,listStc);
                         }
-                        pauseButton.setHint("Pause");
-                        Log.w("Daftar Word", list.toString());
-                        Log.w("Daftar Stc", listStc.toString());
-                        initializePlayer(list,listStc);
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseApiModel> call, Throwable t) {
-                        Toast.makeText(TransActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ResponseApiModel> call, Throwable t) {
+                            Toast.makeText(TransActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
             }
         });
 //        importButton.setOnClickListener(new View.OnClickListener() {
@@ -251,9 +255,12 @@ public class TransActivity extends Activity {
                 String inStc2=inputStc2;
                 Log.d("Save: InputStc2", inputStc2);
                 String intDesc=intentDescription;
+                int tempProgress=100-(progressList*100/progress);
                 DataHelper dataHelper = new DataHelper(TransActivity.this);
                 dataHelper.getWritableDatabase();
-                dataHelper.updateHistory(intDesc,list1,list2,inStc1,inStc2);
+                Log.d("Saving String", intDesc+"\n"+list1+"\n"+list2+"\n"+inStc1+"\n"+inStc2);
+                Log.d("Saving Integer", String.valueOf(tempProgress));
+                dataHelper.updateHistory(intDesc,list1,list2,inStc1,inStc2,tempProgress);
                 Toast.makeText(TransActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 transButton.setVisibility(View.VISIBLE);
                 resumeButton.setVisibility(View.GONE);
@@ -303,6 +310,7 @@ public class TransActivity extends Activity {
                                 inputList.remove(0);
                                 Log.d("Save: Inputlist !", inputList.toString());
                                 tempList2=inputList.toString();
+                                progressList=inputList.size();
                                 tempListStc2=inputListStc.toString();
                                 Log.d("Save: tempList2 !", tempList2);
                                 initializePlayer(inputList,inputListStc);
@@ -443,6 +451,7 @@ public class TransActivity extends Activity {
         dataHelper.getWritableDatabase();
         List historyList = new ArrayList();
         List uidList = new ArrayList();
+        List currentProgress = new ArrayList();
         List<HistoryModel> historyModels = dataHelper.getHistory();
         if (historyModels.size()>0){
             for (int i=0;i<historyModels.size();i++){
@@ -451,7 +460,11 @@ public class TransActivity extends Activity {
                 tempFilename=tempFilename.substring(tempFilename.indexOf(":")+1,tempFilename.length());
                 historyList.add(tempFilename);
                 uidList.add(historyModel.getUid());
+                currentProgress.add(historyModel.getProgress());
                 Log.d("HistoryList", historyList.toString());
+                Log.d("HistoryList", String.valueOf(historyModel.getProgress()));
+                Log.d("HistoryList", String.valueOf(historyModel.getUid()));
+
             }
         }
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -473,16 +486,22 @@ public class TransActivity extends Activity {
 //                dataHelper.addHistory(filename);
 //                dataHelper.addHistory(intentDescription,intentDescription);
                 dialog.dismiss();
+                importStatus.setVisibility(View.VISIBLE);
             }
         });
         final List<Map<String, String>> tempList = new ArrayList<>();
         Map<String, String> map;
         int count = historyList.size();
+        Log.d("TempList HistoryList", historyList.toString());
+        Log.d("TempList curr", currentProgress.toString());
         for(int i = 0; i < count; i++) {
             map = new HashMap<>();
             map.put("name", historyList.get(i).toString());
-            map.put("total","0%");
+            String tempString = String.valueOf(currentProgress.get(i));
+            tempString=tempString+"%";
+            map.put("total", tempString);
             map.put("id",uidList.get(i).toString());
+            Log.d("TempList", tempList.toString());
             tempList.add(map);
         }
         final ListView listView = dialog.findViewById(R.id.listView);
